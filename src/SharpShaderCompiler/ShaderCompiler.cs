@@ -32,10 +32,7 @@ namespace SharpShaderCompiler
 
         public CompileResult Compile(string source, Stage stage , CompileOptions options, string name,string entryPoint= "main")
         {       
-            var gcHandle = GCHandle.Alloc(options);
-            IntPtr optionsPtr = GCHandle.ToIntPtr(gcHandle);
-
-            IntPtr resultPtr = ShadercNative.shaderc_compile_into_spv(_handle, source, source.Length, (int)stage, "", entryPoint, optionsPtr);
+            IntPtr resultPtr = ShadercNative.shaderc_compile_into_spv(_handle, source, source.Length, (int)stage, "", entryPoint, options.NativeHandle);
             return new CompileResult(resultPtr);
         }
     }

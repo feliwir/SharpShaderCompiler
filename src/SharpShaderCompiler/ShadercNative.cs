@@ -16,8 +16,8 @@ namespace SharpShaderCompiler
 
         [DllImport("shaderc_shared", CharSet = CharSet.Ansi)]
         public static extern IntPtr shaderc_compile_into_spv(IntPtr compiler, [MarshalAs(UnmanagedType.LPStr)] string source,
-    int sourceSize, int kind, [MarshalAs(UnmanagedType.LPStr)] string filename, [MarshalAs(UnmanagedType.LPStr)] string entryPoint,
-    IntPtr options);
+        int sourceSize, int kind, [MarshalAs(UnmanagedType.LPStr)] string filename, [MarshalAs(UnmanagedType.LPStr)] string entryPoint,
+        IntPtr options);
 
         //OPTIONS FUNCTIONS
         [DllImport("shaderc_shared")]
@@ -56,5 +56,8 @@ namespace SharpShaderCompiler
 
         [DllImport("shaderc_shared")]
         public static extern int shaderc_result_get_compilation_status(IntPtr result);
+
+        [DllImport("shaderc_shared")]
+        public static extern IntPtr shaderc_result_get_bytes(IntPtr result);
     }
 }
