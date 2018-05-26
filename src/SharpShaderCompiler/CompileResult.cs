@@ -24,14 +24,14 @@ namespace SharpShaderCompiler
         {
             get
             {
-                return ShadercNative.shaderc_result_get_num_warnings(_handle);
+                return ShadercNative.shaderc_result_get_num_warnings(_handle).ToUInt64();
             }
         }
         public ulong NumberOfErrors
         {
             get
             {
-                return ShadercNative.shaderc_result_get_num_errors(_handle);
+                return ShadercNative.shaderc_result_get_num_errors(_handle).ToUInt64();
             }
         }
         public Status CompileStatus
@@ -39,6 +39,14 @@ namespace SharpShaderCompiler
             get
             {
                 return (Status)ShadercNative.shaderc_result_get_compilation_status(_handle);
+            }
+        }
+        public string ErrorMessage
+        {
+            get
+            {
+                IntPtr ptr = ShadercNative.shaderc_result_get_error_message(_handle);
+                return Marshal.PtrToStringAnsi(ptr);
             }
         }
 

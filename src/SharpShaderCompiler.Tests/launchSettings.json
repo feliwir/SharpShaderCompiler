@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "SharpShaderCompiler.Tests": {
+      "commandName": "test",
+      "nativeDebugging": true
+    }
+  }
+}

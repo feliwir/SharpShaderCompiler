@@ -32,7 +32,13 @@ namespace SharpShaderCompiler
 
         public CompileResult Compile(string source, Stage stage , CompileOptions options, string name,string entryPoint= "main")
         {       
-            IntPtr resultPtr = ShadercNative.shaderc_compile_into_spv(_handle, source, source.Length, (int)stage, "", entryPoint, options.NativeHandle);
+            IntPtr resultPtr = ShadercNative.shaderc_compile_into_spv(_handle, source,new UIntPtr((uint)source.Length), (int)stage, name, entryPoint, options.NativeHandle);
+            return new CompileResult(resultPtr);
+        }
+
+        public CompileResult Preprocess(string source, Stage stage, CompileOptions options, string name, string entryPoint = "main")
+        {
+            IntPtr resultPtr = ShadercNative.shaderc_compile_into_preprocessed_text(_handle, source, new UIntPtr((uint) source.Length), (int) stage, name, entryPoint, options.NativeHandle);
             return new CompileResult(resultPtr);
         }
     }

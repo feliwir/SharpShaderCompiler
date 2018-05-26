@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using System.Text;
 
 namespace SharpShaderCompiler
@@ -26,11 +27,16 @@ namespace SharpShaderCompiler
             OpenGL_Compat,
         };
 
+        public delegate IncludeResult IncludeHandler(string requestedSource, string requestingSource);
+
         private IntPtr _handle;
         private InputLanguage _lang = InputLanguage.GLSL;
         private OptimizationLevel _level = OptimizationLevel.None;
         private Environment _env = Environment.Vulkan;
         private bool _debug = false;
+        private ShadercNative.ReleaseInclude _includeReleaser;
+        private Dictionary<int, IncludeResult> _includeMap;
+        private int _nextInclude = 0;
 
         public IntPtr NativeHandle => _handle;
         public InputLanguage Language
@@ -70,10 +76,12 @@ namespace SharpShaderCompiler
                 ShadercNative.shaderc_compile_options_set_target_env(_handle, (int)_env, 0);
             }
         }
+        public IncludeHandler IncludeCallback;
 
         public CompileOptions()
         {
             _handle = ShadercNative.shaderc_compile_options_initialize();
+            ShadercNative.shaderc_compile_options_set_include_callbacks(_handle, DelegateWrapper, ReleaseInclude, IntPtr.Zero);
         }
 
         public CompileOptions(IntPtr handle)
@@ -86,9 +94,22 @@ namespace SharpShaderCompiler
             ShadercNative.shaderc_compile_options_release(_handle);
         }
 
-        CompileOptions Clone()
+        public CompileOptions Clone()
         {
             return new CompileOptions(ShadercNative.shaderc_compile_options_clone(_handle));
+        }
+
+        private ShadercNative.IncludeResult DelegateWrapper(IntPtr userData, [MarshalAs(UnmanagedType.LPStr)] string requestedSource, int type,
+                                         [MarshalAs(UnmanagedType.LPStr)] string requestingSource, UIntPtr includeDepth)
+        {
+            var result = IncludeCallback(requestedSource, requestingSource);
+
+            return  result.NativeStruct;
+        }
+
+        private void ReleaseInclude(IntPtr userData, ShadercNative.IncludeResult result)
+        {
+            
         }
     }
 }
