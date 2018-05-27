@@ -5,8 +5,6 @@ namespace SharpShaderCompiler
 {
     public class IncludeResult
     {
-
-
         internal ShadercNative.IncludeResult NativeStruct
         {
             get
@@ -25,6 +23,11 @@ namespace SharpShaderCompiler
         string _sourceName;
         string _content;
 
+        /// <summary>
+        /// Creates the result of an include directive
+        /// </summary>
+        /// <param name="sourceName">The resolved name of the included source</param>
+        /// <param name="content">The content of the included source</param>
         public IncludeResult(string sourceName, string content)
         {
             _sourceName = sourceName;

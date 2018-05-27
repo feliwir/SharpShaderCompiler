@@ -18,7 +18,7 @@ namespace SharpShaderCompiler
 
         private IntPtr _handle;
 
-        public IntPtr NativeHandle => _handle;
+        internal IntPtr NativeHandle => _handle;
 
         public ShaderCompiler()
         {

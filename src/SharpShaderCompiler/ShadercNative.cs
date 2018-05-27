@@ -81,10 +81,10 @@ namespace SharpShaderCompiler
             public IntPtr userData;
         }
 
-        public delegate IncludeResult IncludeFunction(IntPtr userData, [MarshalAs(UnmanagedType.LPStr)] string requestedSource, int type,
+        public delegate IntPtr IncludeFunction(IntPtr userData, [MarshalAs(UnmanagedType.LPStr)] string requestedSource, int type,
                                          [MarshalAs(UnmanagedType.LPStr)] string requestingSource, UIntPtr includeDepth);
 
-        public delegate void ReleaseInclude(IntPtr userData, IncludeResult result);
+        public delegate void ReleaseInclude(IntPtr userData, IntPtr result);
 
         [DllImport("shaderc_shared", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
         public static extern void shaderc_compile_options_set_include_callbacks(IntPtr options, [MarshalAs(UnmanagedType.FunctionPtr)] IncludeFunction resolver,
