@@ -14,12 +14,12 @@ namespace SharpShaderCompiler
         [DllImport("shaderc_shared", CallingConvention = CallingConvention.Cdecl)]
         public static extern void shaderc_compiler_release(IntPtr compiler);
 
-        [DllImport("shaderc_shared", CharSet = CharSet.Ansi)]
+        [DllImport("shaderc_shared", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr shaderc_compile_into_spv(IntPtr compiler, [MarshalAs(UnmanagedType.LPStr)] string source,
         UIntPtr sourceSize, int kind, [MarshalAs(UnmanagedType.LPStr)] string filename, [MarshalAs(UnmanagedType.LPStr)] string entryPoint,
         IntPtr options);
 
-        [DllImport("shaderc_shared", CharSet = CharSet.Ansi)]
+        [DllImport("shaderc_shared", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.Cdecl)]
         public static extern IntPtr shaderc_compile_into_preprocessed_text(IntPtr compiler, [MarshalAs(UnmanagedType.LPStr)] string source,
         UIntPtr sourceSize, int kind, [MarshalAs(UnmanagedType.LPStr)] string filename, [MarshalAs(UnmanagedType.LPStr)] string entryPoint,
         IntPtr options);

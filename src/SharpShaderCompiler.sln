@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.27703.2018
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharpShaderCompiler", "SharpShaderCompiler\SharpShaderCompiler.csproj", "{B9C94658-BEC3-479E-88C6-8F73A8306402}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpShaderCompiler.Tests", "SharpShaderCompiler.Tests\SharpShaderCompiler.Tests.csproj", "{972F1F5D-0162-40F8-AB93-30B7DA297010}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SharpShaderCompiler.Tests", "SharpShaderCompiler.Tests\SharpShaderCompiler.Tests.csproj", "{972F1F5D-0162-40F8-AB93-30B7DA297010}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

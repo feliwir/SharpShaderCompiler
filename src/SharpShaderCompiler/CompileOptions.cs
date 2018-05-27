@@ -34,9 +34,6 @@ namespace SharpShaderCompiler
         private OptimizationLevel _level = OptimizationLevel.None;
         private Environment _env = Environment.Vulkan;
         private bool _debug = false;
-        private ShadercNative.ReleaseInclude _includeReleaser;
-        private Dictionary<int, IncludeResult> _includeMap;
-        private int _nextInclude = 0;
 
         public IntPtr NativeHandle => _handle;
         public InputLanguage Language
@@ -109,7 +106,7 @@ namespace SharpShaderCompiler
 
         private void ReleaseInclude(IntPtr userData, ShadercNative.IncludeResult result)
         {
-            
+
         }
     }
 }
