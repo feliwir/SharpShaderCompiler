@@ -58,6 +58,17 @@ namespace SharpShaderCompiler
         }
 
         /// <summary>
+        /// \see <see cref="Preprocess"/>
+        /// </summary>
+        public CompileResult Preprocess(Stream source, Stage stage, CompileOptions options, string name, string entryPoint = "main")
+        {
+            using (StreamReader sr = new StreamReader(source))
+            {
+                return Preprocess(sr.ReadToEnd(), stage, options, name, entryPoint);
+            }
+        }
+
+        /// <summary>
         /// Similar to Compile, but instead of spv bytecode returns the preprocessed shader
         /// </summary>
         /// <param name="source"></param>
@@ -69,6 +80,32 @@ namespace SharpShaderCompiler
         public CompileResult Preprocess(string source, Stage stage, CompileOptions options, string name, string entryPoint = "main")
         {
             IntPtr resultPtr = ShadercNative.shaderc_compile_into_preprocessed_text(_handle, source, new UIntPtr((uint) source.Length), (int) stage, name, entryPoint, options.NativeHandle);
+            return new CompileResult(resultPtr);
+        }
+
+        /// <summary>
+        /// \see <see cref="Assemble"/>
+        /// </summary>
+        public CompileResult Assemble(Stream source, Stage stage, CompileOptions options, string name, string entryPoint = "main")
+        {
+            using (StreamReader sr = new StreamReader(source))
+            {
+                return Preprocess(sr.ReadToEnd(), stage, options, name, entryPoint);
+            }
+        }
+
+        /// <summary>
+        /// Similar to Compile, but instead of spv bytecode returns assembled string
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="stage"></param>
+        /// <param name="options"></param>
+        /// <param name="name"></param>
+        /// <param name="entryPoint"></param>
+        /// <returns></returns>
+        public CompileResult Assemble(string source, Stage stage, CompileOptions options, string name, string entryPoint = "main")
+        {
+            IntPtr resultPtr = ShadercNative.shaderc_compile_into_spv_assembly(_handle, source, new UIntPtr((uint) source.Length), (int) stage, name, entryPoint, options.NativeHandle);
             return new CompileResult(resultPtr);
         }
     }

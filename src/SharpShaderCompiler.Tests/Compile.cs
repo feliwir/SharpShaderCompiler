@@ -18,11 +18,11 @@ namespace SharpShaderCompiler.Tests
 
             o.Language = CompileOptions.InputLanguage.GLSL;
 
-            string testShader =  @"#version 450
+            string testShader = @"#version 450
                                    void main()
                                    {}";
 
-            var r = c.Compile(testShader, ShaderCompiler.Stage.Vertex, o,"testShader");
+            var r = c.Compile(testShader, ShaderCompiler.Stage.Vertex, o, "testShader");
 
             Assert.True(r.NumberOfErrors == 0, "[Vulkan] GLSL->SPIRV: Has error messages");
 
@@ -92,7 +92,7 @@ namespace SharpShaderCompiler.Tests
         /// <param name="requestingSource"></param>
         /// The source that is requesting this header
         /// <returns></returns>
-        IncludeResult IncludeHandler(string requestedSource, string requestingSource,CompileOptions.IncludeType type)
+        IncludeResult IncludeHandler(string requestedSource, string requestingSource, CompileOptions.IncludeType type)
         {
             return new IncludeResult(requestedSource, "");
         }
@@ -116,7 +116,7 @@ namespace SharpShaderCompiler.Tests
 
             var r = c.Preprocess(testShader, ShaderCompiler.Stage.Vertex, o, "testShader");
 
-            Assert.True(r.NumberOfErrors == 0,"[Vulkan] GLSL->PREPROCESS: Has error messages");
+            Assert.True(r.NumberOfErrors == 0, "[Vulkan] GLSL->PREPROCESS: Has error messages");
 
             Assert.True(r.CompileStatus == CompileResult.Status.Success, "[Vulkan] GLSL->PREPROCESS: Compilation failed:" + r.ErrorMessage);
 
@@ -124,7 +124,7 @@ namespace SharpShaderCompiler.Tests
 
             var preprocessed = Encoding.ASCII.GetString(bc);
 
-            Assert.False(preprocessed.Contains("#include"),"[Vulkan] GLSL->PREPROCESS: Preprocessed shader still " +
+            Assert.False(preprocessed.Contains("#include"), "[Vulkan] GLSL->PREPROCESS: Preprocessed shader still " +
                                                             "contains include directive:" + preprocessed);
         }
 
@@ -146,7 +146,31 @@ namespace SharpShaderCompiler.Tests
 
             var r = c.Preprocess(testShader, ShaderCompiler.Stage.Vertex, o, "testShader");
 
-            Assert.True(r.CompileStatus != CompileResult.Status.Success, "[Vulkan] GLSL->PREPROCESS: Compilation succeeded unexpected:");
+            Assert.True(r.CompileStatus != CompileResult.Status.Success, "[Vulkan] GLSL->PREPROCESS: Compilation succeeded unexpected:" + r.ErrorMessage);
+        }
+
+        /// <summary>
+        /// Tests if the compiler gives the correct error when no include is specified
+        /// </summary>
+        [Fact]
+        public void Assemble()
+        {
+            var c = new ShaderCompiler();
+            var o = new CompileOptions();
+
+            o.Language = CompileOptions.InputLanguage.GLSL;
+
+            string testShader = @"#version 450
+                                void main()
+                                {}";
+
+            var r = c.Assemble(testShader, ShaderCompiler.Stage.Vertex, o, "testShader");
+
+            Assert.True(r.CompileStatus == CompileResult.Status.Success, "[Vulkan] GLSL->ASSEMBLE: Compilation failed unexpected:" + r.ErrorMessage);
+
+            var assembly = r.GetString();
+
+            Assert.True(assembly.Length > 0, "[Vulkan] GLSL->ASSEMBLE: Assembly is empty!");
         }
     }
 }
